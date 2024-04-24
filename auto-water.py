@@ -44,7 +44,7 @@ class PlantBed():
             temp, humidity = self.sensor.get_sensor_data()
         except Exception as e:
             temp = 0
-            humidity = 10
+            humidity = 10000000000000
             print(f'failed to get sensor data {e}')
         print ("Temperature in Fahrenheit is : %.2f F" %temp)
         print ("Relative Humidity is : %.2f %%RH" %humidity)
