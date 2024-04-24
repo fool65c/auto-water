@@ -1,2 +1,7 @@
-RPi.GPIO
-smbus
+#RPi.GPIO
+#smbus
+flask
+Flask-APScheduler
+Flask-Swagger-UI
+SQLAlchemy 
+flask_sqlalchemy

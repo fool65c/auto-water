@@ -1,0 +1,412 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Watering System API",
+      "version": "1.0",
+      "description": "API endpoints for managing a watering system"
+    },
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "Sensor",
+        "description": "Endpoints for managing sensors"
+      },
+      {
+        "name": "Valve",
+        "description": "Endpoints for managing valves"
+      },
+      {
+        "name": "PlantBed",
+        "description": "Endpoints for managing plant beds"
+      }
+    ],
+    "paths": {
+      "/api/sensor": {
+        "get": {
+          "tags": ["Sensor"],
+          "summary": "Get all sensors",
+          "responses": {
+            "200": {
+              "description": "List of sensors",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string"
+                    },
+                    "bus": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": ["Sensor"],
+          "summary": "Create a new sensor",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "bus": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Sensor created successfully"
+            }
+          }
+        }
+      },
+      "/api/sensor/{sensor_id}": {
+        "put": {
+          "tags": ["Sensor"],
+          "summary": "Update an existing sensor",
+          "parameters": [
+            {
+              "name": "sensor_id",
+              "in": "path",
+              "required": true,
+              "type": "integer"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  },
+                  "bus": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Sensor updated successfully"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Sensor"],
+          "summary": "Delete a sensor",
+          "parameters": [
+            {
+              "name": "sensor_id",
+              "in": "path",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Sensor deleted successfully"
+            }
+          }
+        }
+      },
+      "/api/valve": {
+        "get": {
+          "tags": ["Valve"],
+          "summary": "Get all valves",
+          "responses": {
+            "200": {
+              "description": "List of valves",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "pin": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": ["Valve"],
+          "summary": "Create a new valve",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "pin": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Valve created successfully"
+            }
+          }
+        }
+      },
+      "/api/valve/{valve_id}": {
+        "put": {
+          "tags": ["Valve"],
+          "summary": "Update an existing valve",
+          "parameters": [
+            {
+              "name": "valve_id",
+              "in": "path",
+              "required": true,
+              "type": "integer"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "pin": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Valve updated successfully"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Valve"],
+          "summary": "Delete a valve",
+          "parameters": [
+            {
+              "name": "valve_id",
+              "in": "path",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Valve deleted successfully"
+            }
+          }
+        }
+      },
+      "/api/plantbed": {
+        "get": {
+          "tags": ["PlantBed"],
+          "summary": "Get all plant beds",
+          "responses": {
+            "200": {
+              "description": "List of plant beds",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "valve_id": {
+                      "type": "integer"
+                    },
+                    "sensor_id": {
+                      "type": "integer"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": ["PlantBed"],
+          "summary": "Create a new plant bed",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "valve_id": {
+                    "type": "integer"
+                  },
+                  "sensor_id": {
+                    "type": "integer"
+                  },
+                  "active": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Plant bed created successfully"
+            }
+          }
+        }
+      },
+      "/api/plantbed/{plantbed_id}": {
+        "put": {
+          "tags": ["PlantBed"],
+          "summary": "Update an existing plant bed",
+          "parameters": [
+            {
+              "name": "plantbed_id",
+              "in": "path",
+              "required": true,
+              "type": "integer"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "valve_id": {
+                    "type": "integer"
+                  },
+                  "sensor_id": {
+                    "type": "integer"
+                  },
+                  "active": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Plant bed updated successfully"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["PlantBed"],
+          "summary": "Delete a plant bed",
+          "parameters": [
+            {
+              "name": "plantbed_id",
+              "in": "path",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Plant bed deleted successfully"
+            }
+          }
+        }
+      },
+      "/api/plantbed/{plantbed_id}/activate": {
+        "put": {
+          "tags": ["PlantBed"],
+          "summary": "Activate a plant bed",
+          "parameters": [
+            {
+              "name": "plantbed_id",
+              "in": "path",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Plant bed activated successfully"
+            }
+          }
+        }
+      },
+      "/api/plantbed/{plantbed_id}/deactivate": {
+        "put": {
+          "tags": ["PlantBed"],
+          "summary": "Deactivate a plant bed",
+          "parameters": [
+            {
+              "name": "plantbed_id",
+              "in": "path",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Plant bed deactivated successfully"
+            }
+          }
+        }
+      }
+    }
+  }
+  
