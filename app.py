@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_swagger_ui import get_swaggerui_blueprint
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./watering_system.db'
@@ -37,6 +38,13 @@ class PlantBed(db.Model):
     valve_id = db.Column(db.Integer, db.ForeignKey('valve.id'))
     sensor_id = db.Column(db.Integer, db.ForeignKey('sensor.id'))
     active = db.Column(db.Boolean, default=True)
+
+class Reading(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    temperature = db.Column(db.Float, nullable=False)
+    humidity = db.Column(db.Float, nullable=False)
+    sensor_id = db.Column(db.Integer, db.ForeignKey('sensor.id'), nullable=False)
 
 # Routes
 @app.route('/')
@@ -151,6 +159,31 @@ def deactivate_plantbed(plantbed_id):
     plantbed.active = False
     db.session.commit()
     return jsonify({'message': 'PlantBed deactivated successfully'})
+
+@app.route('/api/readings', methods=['GET'])
+def get_readings():
+    from_timestamp = request.args.get('from')
+    to_timestamp = request.args.get('to')
+    
+    try:
+        from_datetime = datetime.strptime(from_timestamp, '%Y-%m-%d %H:%M:%S')
+        to_datetime = datetime.strptime(to_timestamp, '%Y-%m-%d %H:%M:%S')
+    except ValueError:
+        return jsonify({'error': 'Invalid timestamp format. Please use format: YYYY-MM-DD HH:MM:SS'}), 400
+    
+    readings = Reading.query.filter(Reading.timestamp.between(from_datetime, to_datetime)).all()
+    
+    result = []
+    for reading in readings:
+        result.append({
+            'id': reading.id,
+            'timestamp': reading.timestamp,
+            'temperature': reading.temperature,
+            'humidity': reading.humidity,
+            'sensor_id': reading.sensor_id
+        })
+    
+    return jsonify(result)
 
 if __name__ == '__main__':
     with app.app_context():

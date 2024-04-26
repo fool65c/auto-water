@@ -3,19 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garden App</title>
+    <title>Watering System UI</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div id="root"></div>
-
-    <!-- React library -->
-    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-
-    <!-- Axios library -->
+    <div id="app" class="container mt-4">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#plantbeds">Plant Beds</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#sensors">Sensors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#valves">Valves</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade">
+                <h3>Home</h3>
+                <p>Welcome to the Watering System!</p>
+            </div>
+            <div id="plantbeds" class="tab-pane fade">
+                <h3>Plant Beds</h3>
+                <div v-for="plantbed in plantbeds" :key="plantbed.id" class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <input type="text" v-model="plantbed.name" class="form-control" @change="updatePlantBed(plantbed)">
+                        </h5>
+                        <p class="card-text">
+                            Sensor:
+                            <select v-model="plantbed.sensor_id" class="form-control" @change="updatePlantBed(plantbed)">
+                                <option v-for="sensor in sensors" :key="sensor.id" :value="sensor.id">{{ sensor.name }}</option>
+                            </select>
+                        </p>
+                        <p class="card-text">
+                            Valve:
+                            <select v-model="plantbed.valve_id" class="form-control" @change="updatePlantBed(plantbed)">
+                                <option v-for="valve in valves" :key="valve.id" :value="valve.id">{{ valve.name }}</option>
+                            </select>
+                        </p>
+                        <p v-if="plantbed.isSaving">Saving...</p>
+                    </div>
+                </div>
+            </div>
+            <div id="sensors" class="tab-pane fade">
+                <h3>Sensors</h3>
+                <div v-for="sensor in sensors" :key="sensor.id" class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <input type="text" v-model="sensor.name" class="form-control" @change="updateSensor(sensor)">
+                        </h5>
+                        <p class="card-text">
+                            Address: <input type="text" v-model="sensor.address" class="form-control" @change="updateSensor(sensor)">
+                        </p>
+                        <p class="card-text">
+                            Bus: <input type="number" v-model="sensor.bus" class="form-control" @change="updateSensor(sensor)">
+                        </p>
+                        <p v-if="sensor.isSaving">Saving...</p>
+                    </div>
+                </div>
+            </div>
+            <div id="valves" class="tab-pane fade show active">
+                <h3>Valves</h3>
+                <div v-for="valve in valves" :key="valve.id" class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <input type="text" v-model="valve.name" class="form-control" @change="updateValve(valve)">
+                        </h5>
+                        <p class="card-text">
+                            Pin: <input type="number" v-model="valve.pin" class="form-control" @change="updateValve(valve)">
+                        </p>
+                        <p v-if="valve.isSaving">Saving...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- Add Axios for making API requests -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Add Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- Your React component -->
-    <script src="/app.js" type="module"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                valves: [],
+                sensors: [],
+                plantbeds: []
+            },
+            mounted() {
+                this.fetchValves();
+                this.fetchSensors();
+                this.fetchPlantBeds();
+            },
+            methods: {
+                fetchValves() {
+                    axios.get('/api/valve')
+                        .then(response => {
+                            this.valves = response.data;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching valves:', error);
+                        });
+                },
+                fetchSensors() {
+                    axios.get('/api/sensor')
+                        .then(response => {
+                            this.sensors = response.data;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching sensors:', error);
+                        });
+                },
+                fetchPlantBeds() {
+                    axios.get('/api/plantbed')
+                        .then(response => {
+                            this.plantbeds = response.data;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching plant beds:', error);
+                        });
+                },
+                updateValve(valve) {
+                    if (!valve.isSaving) {
+                        valve.isSaving = true;
+                        axios.put(`/api/valve/${valve.id}`, valve)
+                            .then(response => {
+                                console.log('Valve updated successfully:', response.data);
+                                valve.isSaving = false;
+                            })
+                            .catch(error => {
+                                console.error('Error updating valve:', error);
+                                valve.isSaving = false;
+                            });
+                    }
+                },
+                updateSensor(sensor) {
+                    if (!sensor.isSaving) {
+                        sensor.isSaving = true;
+                        axios.put(`/api/sensor/${sensor.id}`, sensor)
+                            .then(response => {
+                                console.log('Sensor updated successfully:', response.data);
+                                sensor.isSaving = false;
+                            })
+                            .catch(error => {
+                                console.error('Error updating sensor:', error);
+                                sensor.isSaving = false;
+                            });
+                    }
+                },
+                updatePlantBed(plantbed) {
+                    if (!plantbed.isSaving) {
+                        plantbed.isSaving = true;
+                        axios.put(`/api/plantbed/${plantbed.id}`, plantbed)
+                            .then(response => {
+                                console.log('Plant bed updated successfully:', response.data);
+                                plantbed.isSaving = false;
+                            })
+                            .catch(error => {
+                                console.error('Error updating plant bed:', error);
+                                plantbed.isSaving = false;
+                            });
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

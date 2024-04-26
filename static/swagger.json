@@ -2,57 +2,54 @@
     "swagger": "2.0",
     "info": {
       "title": "Watering System API",
-      "version": "1.0",
-      "description": "API endpoints for managing a watering system"
+      "description": "API documentation for Watering System",
+      "version": "1.0.0"
     },
     "basePath": "/",
+    "schemes": [
+      "http"
+    ],
     "tags": [
       {
-        "name": "Sensor",
-        "description": "Endpoints for managing sensors"
+        "name": "sensor",
+        "description": "Operations related to sensors"
       },
       {
-        "name": "Valve",
-        "description": "Endpoints for managing valves"
+        "name": "valve",
+        "description": "Operations related to valves"
       },
       {
-        "name": "PlantBed",
-        "description": "Endpoints for managing plant beds"
+        "name": "plantbed",
+        "description": "Operations related to plant beds"
+      },
+      {
+        "name": "reading",
+        "description": "Operations related to readings"
       }
     ],
     "paths": {
       "/api/sensor": {
         "get": {
-          "tags": ["Sensor"],
+          "tags": [
+            "sensor"
+          ],
           "summary": "Get all sensors",
           "responses": {
             "200": {
-              "description": "List of sensors",
+              "description": "Successful operation",
               "schema": {
                 "type": "array",
                 "items": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "address": {
-                      "type": "string"
-                    },
-                    "bus": {
-                      "type": "integer"
-                    }
-                  }
+                  "$ref": "#/definitions/Sensor"
                 }
               }
             }
           }
         },
         "post": {
-          "tags": ["Sensor"],
+          "tags": [
+            "sensor"
+          ],
           "summary": "Create a new sensor",
           "parameters": [
             {
@@ -60,32 +57,32 @@
               "in": "body",
               "required": true,
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "address": {
-                    "type": "string"
-                  },
-                  "bus": {
-                    "type": "integer"
-                  }
-                }
+                "$ref": "#/definitions/SensorInput"
               }
             }
           ],
           "responses": {
             "201": {
-              "description": "Sensor created successfully"
+              "description": "Sensor created successfully",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
             }
           }
         }
       },
       "/api/sensor/{sensor_id}": {
         "put": {
-          "tags": ["Sensor"],
-          "summary": "Update an existing sensor",
+          "tags": [
+            "sensor"
+          ],
+          "summary": "Update a sensor",
           "parameters": [
             {
               "name": "sensor_id",
@@ -98,18 +95,7 @@
               "in": "body",
               "required": true,
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "address": {
-                    "type": "string"
-                  },
-                  "bus": {
-                    "type": "integer"
-                  }
-                }
+                "$ref": "#/definitions/SensorInput"
               }
             }
           ],
@@ -120,7 +106,9 @@
           }
         },
         "delete": {
-          "tags": ["Sensor"],
+          "tags": [
+            "sensor"
+          ],
           "summary": "Delete a sensor",
           "parameters": [
             {
@@ -139,33 +127,26 @@
       },
       "/api/valve": {
         "get": {
-          "tags": ["Valve"],
+          "tags": [
+            "valve"
+          ],
           "summary": "Get all valves",
           "responses": {
             "200": {
-              "description": "List of valves",
+              "description": "Successful operation",
               "schema": {
                 "type": "array",
                 "items": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "pin": {
-                      "type": "integer"
-                    }
-                  }
+                  "$ref": "#/definitions/Valve"
                 }
               }
             }
           }
         },
         "post": {
-          "tags": ["Valve"],
+          "tags": [
+            "valve"
+          ],
           "summary": "Create a new valve",
           "parameters": [
             {
@@ -173,29 +154,32 @@
               "in": "body",
               "required": true,
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "pin": {
-                    "type": "integer"
-                  }
-                }
+                "$ref": "#/definitions/ValveInput"
               }
             }
           ],
           "responses": {
             "201": {
-              "description": "Valve created successfully"
+              "description": "Valve created successfully",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
             }
           }
         }
       },
       "/api/valve/{valve_id}": {
         "put": {
-          "tags": ["Valve"],
-          "summary": "Update an existing valve",
+          "tags": [
+            "valve"
+          ],
+          "summary": "Update a valve",
           "parameters": [
             {
               "name": "valve_id",
@@ -208,15 +192,7 @@
               "in": "body",
               "required": true,
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "pin": {
-                    "type": "integer"
-                  }
-                }
+                "$ref": "#/definitions/ValveInput"
               }
             }
           ],
@@ -227,7 +203,9 @@
           }
         },
         "delete": {
-          "tags": ["Valve"],
+          "tags": [
+            "valve"
+          ],
           "summary": "Delete a valve",
           "parameters": [
             {
@@ -246,39 +224,26 @@
       },
       "/api/plantbed": {
         "get": {
-          "tags": ["PlantBed"],
+          "tags": [
+            "plantbed"
+          ],
           "summary": "Get all plant beds",
           "responses": {
             "200": {
-              "description": "List of plant beds",
+              "description": "Successful operation",
               "schema": {
                 "type": "array",
                 "items": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "valve_id": {
-                      "type": "integer"
-                    },
-                    "sensor_id": {
-                      "type": "integer"
-                    },
-                    "active": {
-                      "type": "boolean"
-                    }
-                  }
+                  "$ref": "#/definitions/PlantBed"
                 }
               }
             }
           }
         },
         "post": {
-          "tags": ["PlantBed"],
+          "tags": [
+            "plantbed"
+          ],
           "summary": "Create a new plant bed",
           "parameters": [
             {
@@ -286,35 +251,32 @@
               "in": "body",
               "required": true,
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "valve_id": {
-                    "type": "integer"
-                  },
-                  "sensor_id": {
-                    "type": "integer"
-                  },
-                  "active": {
-                    "type": "boolean"
-                  }
-                }
+                "$ref": "#/definitions/PlantBedInput"
               }
             }
           ],
           "responses": {
             "201": {
-              "description": "Plant bed created successfully"
+              "description": "Plant bed created successfully",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
             }
           }
         }
       },
       "/api/plantbed/{plantbed_id}": {
         "put": {
-          "tags": ["PlantBed"],
-          "summary": "Update an existing plant bed",
+          "tags": [
+            "plantbed"
+          ],
+          "summary": "Update a plant bed",
           "parameters": [
             {
               "name": "plantbed_id",
@@ -327,21 +289,7 @@
               "in": "body",
               "required": true,
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "valve_id": {
-                    "type": "integer"
-                  },
-                  "sensor_id": {
-                    "type": "integer"
-                  },
-                  "active": {
-                    "type": "boolean"
-                  }
-                }
+                "$ref": "#/definitions/PlantBedInput"
               }
             }
           ],
@@ -352,7 +300,9 @@
           }
         },
         "delete": {
-          "tags": ["PlantBed"],
+          "tags": [
+            "plantbed"
+          ],
           "summary": "Delete a plant bed",
           "parameters": [
             {
@@ -371,7 +321,9 @@
       },
       "/api/plantbed/{plantbed_id}/activate": {
         "put": {
-          "tags": ["PlantBed"],
+          "tags": [
+            "plantbed"
+          ],
           "summary": "Activate a plant bed",
           "parameters": [
             {
@@ -390,7 +342,9 @@
       },
       "/api/plantbed/{plantbed_id}/deactivate": {
         "put": {
-          "tags": ["PlantBed"],
+          "tags": [
+            "plantbed"
+          ],
           "summary": "Deactivate a plant bed",
           "parameters": [
             {
@@ -404,6 +358,183 @@
             "200": {
               "description": "Plant bed deactivated successfully"
             }
+          }
+        }
+      },
+      "/api/readings": {
+        "get": {
+          "tags": [
+            "reading"
+          ],
+          "summary": "Get readings within a timestamp range",
+          "parameters": [
+            {
+              "name": "from",
+              "in": "query",
+              "description": "Start timestamp (format: YYYY-MM-DD HH:MM:SS)",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "to",
+              "in": "query",
+              "description": "End timestamp (format: YYYY-MM-DD HH:MM:SS)",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Reading"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Sensor": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Sensor 1"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main St."
+          },
+          "bus": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "SensorInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Sensor 1"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main St."
+          },
+          "bus": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "Valve": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Valve 1"
+          },
+          "pin": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "ValveInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Valve 1"
+          },
+          "pin": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "PlantBed": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Plant Bed 1"
+          },
+          "valve_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "sensor_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "active": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "PlantBedInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Plant Bed 1"
+          },
+          "valve_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "sensor_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "active": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "Reading": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-04-25T12:00:00Z"
+          },
+          "temperature": {
+            "type": "number",
+            "example": 25.5
+          },
+          "humidity": {
+            "type": "number",
+            "example": 60.5
+          },
+          "sensor_id": {
+            "type": "integer",
+            "example": 1
           }
         }
       }
