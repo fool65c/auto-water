@@ -138,9 +138,9 @@ def main():
     start_http_server(config.prometheus.port)
 
     # Define the prometheus gauges
-    temp_gauge = Gauge(f'auto-water_temperature_F', 'The temperature in F of the plant bed')
-    humidity_gauge = Gauge(f'auto-water__humidity', 'The humidity in the plant bed')
-    water_valve_gauge = Gauge(f'auto-water_valve_status', 'Status of the water valve, 1 on, 0 off')
+    temp_gauge = Gauge(f'auto_water_temperature_F', 'The temperature in F of the plant bed')
+    humidity_gauge = Gauge(f'auto_water_humidity', 'The humidity in the plant bed')
+    water_valve_gauge = Gauge(f'auto_water_valve_status', 'Status of the water valve, 1 on, 0 off')
 
     # Define the sensor and water valve
     sensor = Sensor(config.sensor.i2c_bus, config.sensor.address)
