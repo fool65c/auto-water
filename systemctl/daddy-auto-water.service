@@ -1,0 +1,15 @@
+[Unit]
+Description=Auto Water service for Daddys plant bed
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/kmager/auto-water/.auto-water/bin/python /home/kmager/auto-water/auto-water.py /home/kmager/auto-water/config/daddy.yaml
+User=kmager
+Group=kmager
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+

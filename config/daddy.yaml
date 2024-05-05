@@ -1,0 +1,11 @@
+Name: Daddy
+Sensor:
+  i2c_bus: 1
+  address: 0x44
+WaterValve:
+  pin: 23
+WaterThresholds:
+  start: 50
+  stop: 75
+Prometheus:
+  port: 8001

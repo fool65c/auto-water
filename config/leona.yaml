@@ -1,0 +1,11 @@
+Name: Leona
+Sensor:
+  i2c_bus: 4
+  address: 0x44
+WaterValve:
+  pin: 22
+WaterThresholds:
+  start: 50
+  stop: 75
+Prometheus:
+  port: 8000

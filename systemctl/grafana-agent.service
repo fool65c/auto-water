@@ -1,0 +1,15 @@
+[Unit]
+Description=Grafana agent for leona's water bed
+After=network.target
+
+[Service]
+Type=simple
+User=grafana-agent
+WorkingDirectory=/var/lib/grafana
+ExecStart=/usr/local/bin/grafana-agent-linux-arm64 --config.file=/var/lib/grafana/agent-config.yaml
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+

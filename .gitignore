@@ -1,0 +1,4 @@
+config/agent-config.yaml
+__pycache__/
+.auto-water/
+config/leona-agent-config.yaml

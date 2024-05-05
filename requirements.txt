@@ -1,7 +1,4 @@
-#RPi.GPIO
-#smbus
-flask
-Flask-APScheduler
-Flask-Swagger-UI
-SQLAlchemy 
-flask_sqlalchemy
+RPi.GPIO
+smbus
+pyyaml
+prometheus-client
